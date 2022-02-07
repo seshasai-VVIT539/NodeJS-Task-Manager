@@ -13,9 +13,3 @@ app.use(taskRouter)
 app.listen(port, () => {
     console.log('Server is up on the port ', port);
 })
-
-const bcrypt = require('bcryptjs')
-
-const myFunction = async () => {
-    
-}
