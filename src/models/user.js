@@ -61,7 +61,7 @@ userSchema.virtual('tasks', {
     foreignField: 'owner'
 })
 
-const uri = "mongodb+srv://SeshaSai:vNQkaGai9vnE8kmB@cluster0.og1cb.mongodb.net/task-manager-api";
+const uri = process.env.MONGODB_URL;
 mongoose.connect(uri, {
     useNewUrlParser: true
 })
