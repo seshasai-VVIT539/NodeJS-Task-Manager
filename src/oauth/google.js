@@ -8,7 +8,7 @@ const verifyGoogleToken = (token, callback) => {
         } else {
             response = response.body
             if (response.error) {
-                callback(error, undefined)
+                callback(response.error, undefined)
             } else {
                 callback(undefined, response)
             }

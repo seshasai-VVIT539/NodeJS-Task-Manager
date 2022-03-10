@@ -38,8 +38,10 @@ router.post('/users/googleOAuth', async (req, res) => {
     try {
         const user = await User.findByEmail(req.body.email)
         verifyGoogleToken(req.body.token, async (error, response) => {
+            console.log(error)
+            console.log(response);
             if (error) {
-                return res.send({ error: error })
+                return res.status(400).send({ error: error })
             }
             if (req.body.email == response.email) {
                 const token = await user.generateAuthToken()
