@@ -95,6 +95,14 @@ userSchema.statics.findByCredentials = async (email, password) => {
     return user
 }
 
+userSchema.statics.findByEmail = async (email) => {
+    const user = await User.findOne({ email: email })
+    if (!user) {
+        throw new Error('Unable to find')
+    }
+    return user
+}
+
 // Hash the plaintext password before saving
 userSchema.pre("save", async function (next) {
     const user = this

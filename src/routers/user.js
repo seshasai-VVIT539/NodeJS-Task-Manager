@@ -4,6 +4,7 @@ const auth = require('../middleware/auth')
 const multer = require('multer')
 const sharp = require('sharp')
 const { sendWelcomeEmail, sendCancellationEmail } = require('../emails/account')
+const verifyGoogleToken = require('../oauth/google')
 
 const router = express.Router()
 
@@ -30,6 +31,25 @@ router.post('/users/login', async (req, res) => {
         res.send({ user, token })
     } catch (err) {
         res.status(400).send({ error: err.message })
+    }
+})
+
+router.post('/users/googleOAuth', async (req, res) => {
+    try {
+        const user = await User.findByEmail(req.body.email)
+        verifyGoogleToken(req.body.token, async (error, response) => {
+            if (error) {
+                return res.send({ error: error })
+            }
+            if (req.body.email == response.email) {
+                const token = await user.generateAuthToken()
+                res.send({ user, token })
+            } else {
+                res.status(400).send({ error: "Bad details" })
+            }
+        })
+    } catch (error) {
+        res.status(400).send({ error: error.message })
     }
 })
 
